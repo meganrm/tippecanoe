@@ -13,6 +13,7 @@ WARNING_FLAGS := -Wall -Wshadow -Wsign-compare -Wextra -Wunreachable-code -Wunin
 RELEASE_FLAGS := -O3 -DNDEBUG
 DEBUG_FLAGS := -O0 -DDEBUG -fno-inline-functions -fno-omit-frame-pointer
 
+
 ifeq ($(BUILDTYPE),Release)
 	FINAL_FLAGS := -g $(WARNING_FLAGS) $(RELEASE_FLAGS)
 else
@@ -46,6 +47,8 @@ C = $(wildcard *.c) $(wildcard *.cpp)
 
 INCLUDES = -I/usr/local/include -I.
 LIBS = -L/usr/local/lib
+
+echo $(CXX) $(PG) $(LIBS) $(FINAL_FLAGS) $(CXXFLAGS) -o $@ $^ $(LDFLAGS) -lm -lz -lsqlite3 -pthread
 
 tippecanoe: geojson.o jsonpull/jsonpull.o tile.o pool.o mbtiles.o geometry.o projection.o memfile.o mvt.o serial.o main.o text.o dirtiles.o plugin.o read_json.o write_json.o geobuf.o evaluator.o geocsv.o csv.o geojson-loop.o
 	$(CXX) $(PG) $(LIBS) $(FINAL_FLAGS) $(CXXFLAGS) -o $@ $^ $(LDFLAGS) -lm -lz -lsqlite3 -pthread
